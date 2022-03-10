@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"> {% endblock %}{% block title %}Sign Up{% endblock %}
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Nunito:wght@200&family=Quicksand&family=Roboto&family=Roboto+Slab:wght@300;400&family=Zen+Antique&display=swap" rel="stylesheet"> {% block content %}
+<ul class="nav justify-content-end">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ url_for('auth.dashboard')}}"><span>PITCH
+                PERFECT</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.profile')}}">PROFILE</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.logout')}}">LOGOUT</a>
+    </li>
+
+</ul>
+
+
+<div class="container">
+    <div class="row">
+        <!--user info-->
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <h3>ℹ️ USER INFO</h3>
+            <p>💁 USERNAME: {{ name }}</p>
+            <p>✉️ USER EMAIL ADDRESS: {{ email }}</p>
+        </div>
+
+        <!--pitches user has posted-->
+        <div class="col-lg-8 col-md-8 col-sm-6">
+            <h3> SUBMITTED PITCHES</h3>
+            <div>
+                {% for p in pitch %}
+                <p>Title: {{p.title}} </p>
+                <p>Category: {{p.category}}</p>
+                <p>Content of the pitch: {{p.description}}</p>
+                <hr> {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

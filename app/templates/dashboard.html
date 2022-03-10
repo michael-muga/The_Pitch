@@ -1,0 +1,112 @@
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block styles %} {{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"> {% endblock %}
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Nunito:wght@200&family=Quicksand&family=Roboto&family=Roboto+Slab:wght@300;400&family=Zen+Antique&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> {% block content %}
+
+
+<ul class="nav justify-content-end">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ url_for('auth.dashboard')}}">PITCH PERFECT</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.profile')}}">PROFILE</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('main.logout')}}">LOGOUT</a>
+    </li>
+
+</ul>
+
+
+<div class="container text-center">
+    <h1 class="welcome">WELCOME, {{ name }}</h1>
+    <p>Pitch Perfect allows you to view pitches from diffrent categories .You can browse the page to view posted pitches or submit your own.</p>
+</div>
+
+<div class="container-fluid categories">
+    <div class="row gx-5">
+        <div class="col-lg-4 col-md-4 col-sm-4 vid">
+            <video controls="controls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen autostart="false">
+                <source src="../static/uploads/My 1 Minute Sales Pitch.mp4" type="video/mp4">
+                </source>
+            </video>
+            <div class="card-body">
+                <h5 class="card-title">PRODUCT PITCH</h5>
+                <p class="card-text">The anatomy of great sales pitch that will be guaranteed to take off.</p>
+                <a href="{{ url_for('main.pitch') }}" class="btn btn-primary">Submit Your Pitch</a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4 vid">
+            <video controls="controls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen autostart="false">
+                <source src="../static/uploads/30-Second Elevator Pitch.mp4" type="video/mp4">
+                </source>
+            </video>
+            <div class="card-body">
+                <h5 class="card-title">ELEVATOR PITCH</h5>
+                <p class="card-text">Your elevator pitch should indirectly answer # Questions:Who am I? What is my expertise? What makes me unique?.
+                </p>
+                <a href="{{ url_for('main.pitch') }}" class="btn btn-primary">Submit Your Pitch</a>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4 vid">
+            <video controls="controls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen autostart="false">
+                <source src="../static/uploads/How To Introduce Yourself In Interviews - 1 Minute Pro Career.mp4"
+                    type="video/mp4">
+                </source>
+            </video>
+            <div class="card-body">
+                <h5 class="card-title">INTERVIEW PITCH</h5>
+                <p class="card-text">Use your personal brand pitch to contol the outcome of your next interview'
+                </p>
+                <a href="{{ url_for('main.pitch') }}" class="btn btn-primary">Submit Your Pitch</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container pitches-section">
+    <div class="row pitches">
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <h3>Find the pitch you <span>love</span> to hear<br>delight your <span>senses</span> <br>from various
+                <span>pitches</span> on our page.</h3>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-6 ">
+
+            {% for p in pitch %}
+            <p>TITLE: {{p.title}} </p>
+            <p>CATEGORY: {{p.category}}</p>
+            <p>PITCH: {{p.description}}</p>
+            <p>Submitted by: {{p.owner.username}}</p>
+
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                {% for comment in comments %}
+                <p> {{comment.content}}</p>
+
+                {% endfor %}
+            </div>
+
+            <div class="vote">
+                <button id="upvote">👍</button>
+                <input class="voting" type="number" id="input1" value=0 name="">
+                <button id="downVote">👎</button>
+                <input class="voting" type="number" id="input2" value=0 name="">
+            </div>
+
+
+
+
+            <form class="form-signin" method="POST" action="/dashboard">
+                {{ form.hidden_tag() }} {{ wtf.form_field(form.content) }}
+                <button class="btn btn-lg btn-primary btn-block comment-btn" type="submit">Post comment</button>
+            </form>
+            <hr> {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
